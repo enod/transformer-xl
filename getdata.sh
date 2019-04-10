@@ -9,7 +9,7 @@ cd data
 if [[ ! -d 'mn-dataset-cased' ]]; then
     echo "- Downloading Mongolian cased dataset"
     wget --continue https://s3.ap-northeast-2.amazonaws.com/mn-dataset/mn-dataset.zip
-    unzip -q mn-dataset-cased.zip
+    unzip -q mn-dataset.zip
 fi
 
 # Download sentencepiece model
