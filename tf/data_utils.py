@@ -6,8 +6,8 @@ import math
 import os
 from functools import partial
 
-from collections import Counter, OrderedDict
-import pickle
+import joblib
+
 import json
 import multiprocessing as mp
 
@@ -342,7 +342,7 @@ def get_lm_corpus(data_dir, dataset):
     if exists(fn):
         print("Loading cached dataset...")
         with open(fn, "rb") as fp:
-            corpus = pickle.load(fp)
+            corpus = joblib.load(fp)
     else:
         print("Producing dataset...")
         kwargs = {}
@@ -365,7 +365,7 @@ def get_lm_corpus(data_dir, dataset):
         corpus = Corpus(data_dir, dataset, **kwargs)
         print("Saving dataset...")
         with open(fn, "wb") as fp:
-            pickle.dump(corpus, fp, protocol=2)
+            joblib.dump(corpus, fp)
 
         corpus_info = {
             "vocab_size": len(corpus.vocab),
