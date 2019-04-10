@@ -2,12 +2,12 @@
 # Based on mn-dataset_large_tpu.sh script
 
 # Path
-LOCAL_DIR=../data/wikitext-103/
-GSDATA=
-GSEXP=
+LOCAL_DIR=../data/mn-dataset
+GSDATA=gs://transformerxl/data
+GSEXP=gs://transformerxl/experiment
 
 # TPU setting
-NUM_HOST=4
+NUM_HOST=1
 NUM_CORE=8 # TPUv2 -> 8 | TPUv3 -> 16
 
 TEST_NUM_HOST=1
@@ -26,7 +26,7 @@ D_INNER=4096
 TGT_LEN=384
 MEM_LEN=384
 TRAIN_BSZ=128
-VLIDA_BSZ=128
+VALID_BSZ=128
 
 # Testing
 TEST_TGT_LEN=128
@@ -35,12 +35,12 @@ TEST_CLAMP_LEN=1000
 TEST_BSZ=8
 
 if [[ $1 == 'train_data' ]]; then
-    python data_utils.py \
+    python3 data_utils.py \
         --data_dir=${LOCAL_DIR}/ \
         --dataset=mn-dataset \
         --tgt_len=${TGT_LEN} \
         --per_host_train_bsz=${TRAIN_BSZ} \
-        --per_host_valid_bsz=${VLIDA_BSZ} \
+        --per_host_valid_bsz=${VALID_BSZ} \
         --num_core_per_host=${NUM_CORE} \
         --num_passes=10 \
         --use_tpu=True \
@@ -53,7 +53,7 @@ if [[ $1 == 'train_data' ]]; then
     gsutil cp ${LOCAL_DIR}/tfrecords/${SRC_PATTERN} ${GSDATA}/mn-dataset-tfrecords/
 
 elif [[ $1 == 'test_data' ]]; then
-    python data_utils.py \
+    python3 data_utils.py \
         --data_dir=${LOCAL_DIR}/ \
         --dataset=mn-dataset \
         --tgt_len=${TEST_TGT_LEN} \
@@ -68,7 +68,7 @@ elif [[ $1 == 'test_data' ]]; then
 
 elif [[ $1 == 'train' ]]; then
     echo 'Run training...'
-    python train.py \
+    python3 train.py \
         --data_dir=${GSDATA}/mn-dataset-tfrecords \
         --record_info_dir=${LOCAL_DIR}/tfrecords/ \
         --corpus_info_path=${LOCAL_DIR}/corpus-info.json \
@@ -91,7 +91,7 @@ elif [[ $1 == 'train' ]]; then
         --train_steps=4000000 \
         --tgt_len=${TGT_LEN} \
         --mem_len=${MEM_LEN} \
-        --train_batch_size=${BSZ} \
+        --train_batch_size=${TRAIN_BSZ} \
         --num_hosts=${NUM_HOST} \
         --num_core_per_host=${NUM_CORE} \
         --iterations=1000 \
@@ -102,7 +102,7 @@ elif [[ $1 == 'train' ]]; then
 
 elif [[ $1 == 'eval' ]]; then
     echo 'Run evaluation...'
-    python train.py \
+    python3 train.py \
         --data_dir=${GSDATA}/mn-dataset-tfrecords \
         --record_info_dir=${LOCAL_DIR}/tfrecords/ \
         --corpus_info_path=${LOCAL_DIR}/corpus-info.json \
