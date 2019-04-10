@@ -5,12 +5,17 @@ echo "---"
 mkdir -p data
 cd data
 
-
+## Download the dataset
 if [[ ! -d 'mn-dataset-cased' ]]; then
     echo "- Downloading Mongolian cased dataset"
-    wget --continue https://s3.ap-northeast-2.amazonaws.com/mn-dataset/mn-dataset-cased.zip
+    wget --continue https://s3.ap-northeast-2.amazonaws.com/mn-dataset/mn-dataset.zip
     unzip -q mn-dataset-cased.zip
 fi
+
+# Download sentencepiece model
+echo "- Downloading mongolian-bert Sentencepiece cased model and vocab files"
+wget --continue https://s3.ap-northeast-2.amazonaws.com/mn-dataset/mn-cased.zip
+unzip -q mn-cased.zip
 
 #if [[ ! -d 'wikitext-2' ]]; then
 #    echo "- Downloading WikiText-2 (WT2)"
