@@ -90,7 +90,7 @@ class Corpus(object):
             self.test = self.vocab.encode_file(
                 test_path, ordered=True, add_double_eos=True)
 
-        if self.dataset == "wt103" or "mn-dataset":
+        if self.dataset == "wt103":
             self.cutoffs = [0, 20000, 40000, 200000] + [len(self.vocab)]
         elif self.dataset == "lm1b":
             self.cutoffs = [0, 60000, 100000, 640000] + [len(self.vocab)]

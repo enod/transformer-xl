@@ -25,8 +25,8 @@ D_INNER=4096
 # Training
 TGT_LEN=384
 MEM_LEN=384
-TRAIN_BSZ=128
-VALID_BSZ=128
+TRAIN_BSZ=32
+VALID_BSZ=32
 
 # Testing
 TEST_TGT_LEN=128
@@ -69,7 +69,7 @@ elif [[ $1 == 'test_data' ]]; then
 elif [[ $1 == 'train' ]]; then
     echo 'Run training...'
     python3 train.py \
-        --data_dir=${GSDATA}/mn-dataset-tfrecords \
+        --data_dir=${GSDATA}/tfrecords \
         --record_info_dir=${LOCAL_DIR}/tfrecords/ \
         --corpus_info_path=${LOCAL_DIR}/corpus-info.json \
         --model_dir=${GSEXP}/mn-dataset \
@@ -96,6 +96,7 @@ elif [[ $1 == 'train' ]]; then
         --num_core_per_host=${NUM_CORE} \
         --iterations=1000 \
         --save_steps=10000 \
+	--tpu='transformerxl' \
         --use_tpu=True \
         --do_eval=False \
         ${@:2}
