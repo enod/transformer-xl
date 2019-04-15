@@ -14,8 +14,8 @@ TEST_NUM_HOST=1
 TEST_NUM_CORE=8 # TPUv2 -> 8 | TPUv3 -> 16
 
 # Model
-DIV_VAL=4
-N_LAYER=18
+DIV_VAL=1
+N_LAYER=12
 D_MODEL=1024
 D_EMBED=1024
 N_HEAD=16
@@ -69,7 +69,7 @@ elif [[ $1 == 'test_data' ]]; then
 elif [[ $1 == 'train' ]]; then
     echo 'Run training...'
     python3 train.py \
-        --data_dir=${GSDATA}/tfrecords \
+        --data_dir=${GSDATA}/mn-dataset-tfrecords \
         --record_info_dir=${LOCAL_DIR}/tfrecords/ \
         --corpus_info_path=${LOCAL_DIR}/corpus-info.json \
         --model_dir=${GSEXP}/mn-dataset \
