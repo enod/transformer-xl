@@ -93,7 +93,7 @@ class Corpus(object):
         if self.dataset == "wt103":
             self.cutoffs = [0, 20000, 40000, 200000] + [len(self.vocab)]
         elif self.dataset == "mn-dataset":
-            self.cutoffs = [0, 20000, 32000] + [len(self.vocab)]
+            self.cutoffs = [0, 20000] + [len(self.vocab)]
         elif self.dataset == "lm1b":
             self.cutoffs = [0, 60000, 100000, 640000] + [len(self.vocab)]
         else:
