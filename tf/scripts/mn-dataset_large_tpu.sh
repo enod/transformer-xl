@@ -1,10 +1,10 @@
 #!/bin/bash
-# Based on mn-dataset_large_tpu.sh script
+# Based on wt103_large_tpu.sh script
 
 # Path
 LOCAL_DIR=../data/mn-dataset
-GSDATA=gs://transformerxl/data
-GSEXP=gs://transformerxl/experiment
+GSDATA=gs://transformerxl/data/div2
+GSEXP=gs://transformerxl/experiment/div2
 
 # TPU setting
 NUM_HOST=1
@@ -14,7 +14,7 @@ TEST_NUM_HOST=1
 TEST_NUM_CORE=8 # TPUv2 -> 8 | TPUv3 -> 16
 
 # Model
-DIV_VAL=1
+DIV_VAL=2
 N_LAYER=12
 D_MODEL=1024
 D_EMBED=1024
@@ -86,7 +86,7 @@ elif [[ $1 == 'train' ]]; then
         --dropout=0.2 \
         --dropatt=0.2 \
         --init_std=0.005 \
-        --learning_rate=0.00025 \
+        --learning_rate=0.000025 \
         --warmup_steps=16000 \
         --train_steps=4000000 \
         --tgt_len=${TGT_LEN} \
@@ -96,7 +96,7 @@ elif [[ $1 == 'train' ]]; then
         --num_core_per_host=${NUM_CORE} \
         --iterations=1000 \
         --save_steps=10000 \
-	--tpu='transformerxl' \
+	    --tpu='transformerxl' \
         --use_tpu=True \
         --do_eval=False \
         ${@:2}
